@@ -14,9 +14,10 @@ namespace OO7
         [STAThread]
         static void Main(string[] args)
         {
+            //настройка для форм
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            readfile();
+            readfile(); // чтение из файла базы
             int whilecode = 0;
             while (whilecode == 0)
             {

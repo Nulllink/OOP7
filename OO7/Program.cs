@@ -19,20 +19,20 @@ namespace OO7
             Application.SetCompatibleTextRenderingDefault(false);
             readfile(); // чтение из файла базы
             int whilecode = 0;
-            while (whilecode == 0)
+            while (whilecode == 0) //цикл работы с меню
             {
-                int menucode = Menu();
-                switch (menucode)
+                int menucode = Menu();//функция вызова меню
+                switch (menucode) //выполнение необходимой команды
                 {
-                    default:
+                    default://если число не входит в необходимый промежуток
                         dwr("Ошибка свитча");
                         whilecode = 1;
                         break;
-                    case -1:
+                    case -1://если функция меню выдало код ошибки
                         dwr("Ошибка меню");
                         whilecode = 2;
                         break;
-                    case 0:
+                    case 0://выход из программы
                         dwr("Good bye");
                         whilecode = -1;
                         break;
@@ -57,12 +57,15 @@ namespace OO7
                         dwr("Group: keyG, nameG");
                         break;
                     case 6:
+                        dwr("Вывод студентов в консоль");
                         constud();
                         break;
                     case 7:
+                        dwr("Вывод групп в консоль");
                         congr();
                         break;
                     case 8:
+                        dwr("Вывод студентов женского пола");
                         woman();
                         break;
                     case 9:
@@ -101,7 +104,7 @@ namespace OO7
                 dwr("Напишите '9' для изменения студента");
                 dwr("Напишите '10' для изменения группы");
 
-                if (int.TryParse(drl(), out code))
+                if (int.TryParse(drl(), out code))//если перевод числа прошёл успешно
                 {
                     break;
                 }
@@ -138,47 +141,57 @@ namespace OO7
             }
             return -1;
         }
-        
+        /// <summary>
+        /// Вывод листа студентов в консоль
+        /// </summary>
         static void constud()
         {
             dwr("index StudentName GroupIndex Sex");
             dwr("--------------------------------");
-            foreach (Student s in sl)
+            foreach (Student s in sl)//вывод студентов в консоль
             {
                 dwr($"{s.indexRB}      {s.nameS}      {s.indexG}        {s.sex}");
             }
         }
+        /// <summary>
+        /// Вывод листа группы в консоль
+        /// </summary>
         static void congr()
         {
             dwr("index GroupName");
             dwr("---------------");
-            foreach(Group g in gl)
+            foreach(Group g in gl)//вывод группы в консоль
             {
                 dwr($"{g.keyG}      {g.nameG}");
             }
         }
+        /// <summary>
+        /// выполнение задания на вывод студентов женского пола
+        /// </summary>
         static void woman()
         {
             dwr("index StudentName GroupIndex Sex");
             dwr("--------------------------------");
-            foreach (Student s in sl)
+            foreach (Student s in sl)//вывод студентов женского пола в консоль
             {
                 if(s.sex == "female")
                 dwr($"{s.indexRB}      {s.nameS}      {s.indexG}        {s.sex}");
             }
         }
-
+        /// <summary>
+        /// чтение данных из файла
+        /// </summary>
         public static void readfile()
         {
             try
             {
                 StreamReader sr = new StreamReader("Students.txt");
                 string text;
-                while ((text = sr.ReadLine()) != null)
+                while ((text = sr.ReadLine()) != null)//чтение до конца файла по строчно
                 {
                     string[] s = text.Split();
                     sl.Clear();
-                    sl.Add(new Student());
+                    sl.Add(new Student()); //заполнение данными массива
                     sl[sl.Count - 1].indexRB = int.Parse(s[0]);
                     sl[sl.Count - 1].nameS = s[1];
                     sl[sl.Count - 1].indexG = int.Parse(s[2]);
@@ -186,11 +199,11 @@ namespace OO7
                 }
                 sr.Close();
                 sr = new StreamReader("Groups.txt");
-                while ((text = sr.ReadLine()) != null)
+                while ((text = sr.ReadLine()) != null)//чтение файла до конца по строчно
                 {
                     string[] s = text.Split();
                     gl.Clear();
-                    gl.Add(new Group());
+                    gl.Add(new Group());//заполнение данными массива
                     gl[gl.Count - 1].keyG = int.Parse(s[0]);
                     gl[gl.Count - 1].nameG = s[1];
                 }
@@ -202,18 +215,21 @@ namespace OO7
                 dwr("Ошибка чтения");
             }
         }
+        /// <summary>
+        /// Запись в файл из листов
+        /// </summary>
         public static void writefile()
         {
             try
             {
                 StreamWriter sw = new StreamWriter("Students.txt");
-                foreach(Student s in sl)
+                foreach(Student s in sl)//вывод студентов в файл
                 {
                     sw.WriteLine($"{s.indexRB} {s.nameS} {s.indexG} {s.sex}");
                 }
                 sw.Close();
                 sw = new StreamWriter("Groups.txt");
-                foreach(Group g in gl)
+                foreach(Group g in gl)//вывод группы в файл
                 {
                     sw.WriteLine($"{g.keyG} {g.nameG}");
                 }

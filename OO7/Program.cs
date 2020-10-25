@@ -19,6 +19,17 @@ namespace OO7
             Application.SetCompatibleTextRenderingDefault(false);
             readfile(); // чтение из файла базы
             int whilecode = 0;
+            dwr("Напишите '0' для выхода");
+            dwr("Напишите '1' для ввода нового студента");
+            dwr("Напишите '2' для ввода новой группы");
+            dwr("Напишите '3' для записи изменений в файл");
+            dwr("Напишите '4' для чтения из файла и сброса изменений");
+            dwr("Напишите '5' для отображения модели данных");
+            dwr("Напишите '6' для вывода студентов");
+            dwr("Напишите '7' для вывода групп");
+            dwr("Напишите '8' для вывода ответа на задания");
+            dwr("Напишите '9' для изменения студента");
+            dwr("Напишите '10' для изменения группы");
             while (whilecode == 0) //цикл работы с меню
             {
                 int menucode = Menu();//функция вызова меню
@@ -53,7 +64,7 @@ namespace OO7
                         readfile();
                         break;
                     case 5:
-                        dwr("Students: indexRB, nameS, indexG");
+                        dwr("Students: indexRB, nameS, indexG, sex");
                         dwr("Group: keyG, nameG");
                         break;
                     case 6:
@@ -92,17 +103,7 @@ namespace OO7
             while (true)
             {
                 dwr("");
-                dwr("Напишите '0' для выхода");
-                dwr("Напишите '1' для ввода нового студента");
-                dwr("Напишите '2' для ввода новой группы");
-                dwr("Напишите '3' для записи изменений в файл");
-                dwr("Напишите '4' для чтения из файла и сброса изменений");
-                dwr("Напишите '5' для отображения модели данных");
-                dwr("Напишите '6' для вывода студентов");
-                dwr("Напишите '7' для вывода групп");
-                dwr("Напишите '8' для вывода ответа на задания");
-                dwr("Напишите '9' для изменения студента");
-                dwr("Напишите '10' для изменения группы");
+                dwr("Выберите команду из меню");
 
                 if (int.TryParse(drl(), out code))//если перевод числа прошёл успешно
                 {
@@ -150,7 +151,8 @@ namespace OO7
             dwr("--------------------------------");
             foreach (Student s in sl)//вывод студентов в консоль
             {
-                dwr($"{s.indexRB}      {s.nameS}      {s.indexG}        {s.sex}");
+                //Console.WriteLine("{0,10}", s.indexRB, s.nameS, s.indexG, s.sex);
+                dwr($"{s.indexRB}      {s.nameS}      {s.indexG}     {s.sex}");
             }
         }
         /// <summary>
@@ -175,7 +177,7 @@ namespace OO7
             foreach (Student s in sl)//вывод студентов женского пола в консоль
             {
                 if(s.sex == "female")
-                dwr($"{s.indexRB}      {s.nameS}      {s.indexG}        {s.sex}");
+                    dwr($"{s.indexRB}      {s.nameS}      {s.indexG}        {s.sex}");
             }
         }
         /// <summary>
@@ -187,22 +189,22 @@ namespace OO7
             {
                 StreamReader sr = new StreamReader("Students.txt");
                 string text;
+                sl.Clear();
                 while ((text = sr.ReadLine()) != null)//чтение до конца файла по строчно
                 {
                     string[] s = text.Split();
-                    sl.Clear();
                     sl.Add(new Student()); //заполнение данными массива
                     sl[sl.Count - 1].indexRB = int.Parse(s[0]);
                     sl[sl.Count - 1].nameS = s[1];
                     sl[sl.Count - 1].indexG = int.Parse(s[2]);
-                    sl[sl.Count - 1].nameS = s[3];
+                    sl[sl.Count - 1].sex = s[3];
                 }
                 sr.Close();
                 sr = new StreamReader("Groups.txt");
+                gl.Clear();
                 while ((text = sr.ReadLine()) != null)//чтение файла до конца по строчно
                 {
                     string[] s = text.Split();
-                    gl.Clear();
                     gl.Add(new Group());//заполнение данными массива
                     gl[gl.Count - 1].keyG = int.Parse(s[0]);
                     gl[gl.Count - 1].nameG = s[1];
